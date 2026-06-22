@@ -1155,6 +1155,45 @@ document.addEventListener('touchstart',()=>{
 });
 
 function handleSugType(val){
+  let icPhotoDataUrl = '';
+
+function handlePhotoSelect(input){
+  const file = input.files[0];
+  if(!file) return;
+  if(!file.type.startsWith('image/')){
+    alert('Please choose an image file.');
+    input.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const img = new Image();
+    img.onload = function(){
+      const maxDim = 500;
+      let { width, height } = img;
+      if(width > height && width > maxDim){ height = Math.round(height*(maxDim/width)); width = maxDim; }
+      else if(height > maxDim){ width = Math.round(width*(maxDim/height)); height = maxDim; }
+      const canvas = document.createElement('canvas');
+      canvas.width = width; canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      icPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+      document.getElementById('icPhotoPreview').src = icPhotoDataUrl;
+      document.getElementById('icPhotoPreview').style.display = 'block';
+      document.getElementById('icPhotoPlaceholder').style.display = 'none';
+      document.getElementById('icPhotoRemove').style.display = 'inline-flex';
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeIcPhoto(){
+  icPhotoDataUrl = '';
+  document.getElementById('icPhotoInput').value = '';
+  document.getElementById('icPhotoPreview').style.display = 'none';
+  document.getElementById('icPhotoPlaceholder').style.display = 'flex';
+  document.getElementById('icPhotoRemove').style.display = 'none';
+}
   const isCard = val === 'info_card';
   document.getElementById('standardFields').style.display = isCard ? 'none' : 'block';
   document.getElementById('infoCardFields').style.display = isCard ? 'block' : 'none';
@@ -1169,10 +1208,11 @@ async function submitSuggestion(){
   let payload;
   if(type === 'info_card'){
     payload = {
-      sheet: 'InfoCards',
-      name,
-      type: 'info_card',
-      fullName:    document.getElementById('icName').value.trim(),
+  sheet: 'InfoCards',
+  name,
+  type: 'info_card',
+  photo:       icPhotoDataUrl,  
+  fullName:    document.getElementById('icName').value.trim(),
       dob:         document.getElementById('icDob').value.trim(),
       birthplace:  document.getElementById('icBirthplace').value.trim(),
       education:   document.getElementById('icEducation').value.trim(),
@@ -1206,6 +1246,7 @@ async function submitSuggestion(){
   // Clear fields
   ['sugName','sugType','sugPerson','sugMessage','icName','icDob','icBirthplace','icEducation','icCareer','icColor','icSong','icSnack','icHobbies','icOther'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
   handleSugType('');
+  removeIcPhoto();
   btn.disabled=false;
   btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:6px"><path d="M2,3 L22,12 L2,21 L2,14 L16,12 L2,10 Z" fill="#5C3D2E"/></svg>Send to the Family Tree';
   const c=document.getElementById('submitConfirm'); c.classList.add('show'); setTimeout(()=>c.classList.remove('show'),5000);

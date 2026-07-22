@@ -448,7 +448,7 @@
         <div class="form-row"><label>Date of Birth</label><input type="text" id="icDob" placeholder="e.g. August 5, 1990"></div>
         <div class="form-row"><label>Place of Birth</label><input type="text" id="icBirthplace" placeholder="e.g. New London, Connecticut"></div>
         <div class="form-row"><label>Education</label><input type="text" id="icEducation" placeholder="e.g. B.S. in Communications, ECSU"></div>
-        <div class="form-row"><label>Career / Occupation</label><input type="text" id="icCareer" placeholder="e.g. Project Coordinator"></div>
+        <div class="form-row"><label>Occupation / Occupation</label><input type="text" id="icOccupation" placeholder="e.g. Project Coordinator"></div>
         <div class="form-row"><label>Favorite Color</label><input type="text" id="icColor" placeholder="e.g. Yellow"></div>
         <div class="form-row"><label>Favorite Song</label><input type="text" id="icSong" placeholder="e.g. Less I Know the Better — Tame Impala"></div>
         <div class="form-row"><label>Favorite Snack</label><input type="text" id="icSnack" placeholder="e.g. Stove-popped Popcorn"></div>
@@ -547,7 +547,7 @@ const TREE = {
                   birthdate:'September 21, 1939',
                   birthplace:'Little Rock, Arkansas',
                   education:'High School in CT??',
-                  career:'Enter here'
+                  Occupation:'Enter here'
                 },
                 favorites:{
                   color:'Maybe red, hmmm...',
@@ -566,7 +566,7 @@ const TREE = {
                   birthdate:'December 9, 1956',
                   birthplace:'Groton, Connecticut',
                   education:'New London High School',
-                  career:'Civil Service Worker'
+                  Occupation:'Civil Service Worker'
                 },
                 favorites:{
                   color:'Blue',
@@ -592,7 +592,7 @@ const TREE = {
                   birthdate:'December 3, 1957',
                   birthplace:'Groton, Connecticut',
                   education:'New London High School',
-                  career:'Cook'
+                  Occupation:'Cook'
                 },
                 favorites:{
                   color:'Blue',
@@ -631,7 +631,7 @@ const TREE = {
                 birthdate:'August 5, 1990',
                 birthplace:'New London, Connecticut',
                 education:'Robert E. Fitch High School<br> Eastern Connecticut State University',
-                career:'Digital Strategies & Operations at Rewired Education Group & <a href="https://www.tecwebstudio.com/" class="hover-link" target="_blank" rel="noopener noreferrer">Founder of TecWeb Studio</a>'
+                Occupation:'Digital Strategies & Operations at Rewired Education Group & <a href="https://www.tecwebstudio.com/" class="hover-link" target="_blank" rel="noopener noreferrer">Founder of TecWeb Studio</a>'
               },
               favorites:{
                 color:'Yellow',
@@ -651,7 +651,7 @@ const TREE = {
                   birthdate:'November 11, 2022',
                   birthplace:'Norwich, Connecticut',
                   education:'Preschool, Watching Bluey',
-                  career:'Chef, Doctor, Track Star'
+                  Occupation:'Chef, Doctor, Track Star'
                 },
                 favorites:{
                   color:'Green',
@@ -1054,7 +1054,7 @@ function openProfile(e, name, cardEl){
   let aboutHTML = '';
   if(about.birthdate||about.birthplace) aboutHTML += `<div class="profile-section"><div class="profile-section-title"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Birth</div><div class="profile-section-value">${[about.birthdate,about.birthplace].filter(Boolean).join(' — ')}</div></div>`;
   if(about.education) aboutHTML += `<div class="profile-section"><div class="profile-section-title"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Education</div><div class="profile-section-value">${about.education}</div></div>`;
-  if(about.career) aboutHTML += `<div class="profile-section"><div class="profile-section-title"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Career</div><div class="profile-section-value">${about.career}</div></div>`;
+  if(about.Occupation) aboutHTML += `<div class="profile-section"><div class="profile-section-title"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Occupation</div><div class="profile-section-value">${about.Occupation}</div></div>`;
   if(!aboutHTML) aboutHTML = `<p style="color:var(--muted);font-style:italic;text-align:center;padding:20px 0;">Nothing here yet — use the suggestion box to share your story!</p>`;
   document.getElementById('profileAbout').innerHTML = aboutHTML;
 
@@ -1226,7 +1226,7 @@ async function submitSuggestion(){
       dob:         document.getElementById('icDob').value.trim(),
       birthplace:  document.getElementById('icBirthplace').value.trim(),
       education:   document.getElementById('icEducation').value.trim(),
-      career:      document.getElementById('icCareer').value.trim(),
+      Occupation:      document.getElementById('icOccupation').value.trim(),
       color:       document.getElementById('icColor').value.trim(),
       song:        document.getElementById('icSong').value.trim(),
       snack:       document.getElementById('icSnack').value.trim(),
@@ -1254,7 +1254,7 @@ async function submitSuggestion(){
   }catch(err){ console.warn('Submission error:',err); }
 
   // Clear fields
-  ['sugName','sugType','sugPerson','sugMessage','icName','icDob','icBirthplace','icEducation','icCareer','icColor','icSong','icSnack','icHobbies','icOther'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  ['sugName','sugType','sugPerson','sugMessage','icName','icDob','icBirthplace','icEducation','icOccupation','icColor','icSong','icSnack','icHobbies','icOther'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
   handleSugType('');
   removeIcPhoto();
   btn.disabled=false;
